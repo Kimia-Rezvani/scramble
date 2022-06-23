@@ -1,0 +1,140 @@
+#!/usr/bin/env python3
+
+"""
+*************************************************************************************************************
+File name: scramble.py
+
+Modifications: 01/30/2021
+Description: This module demonstrates:
+1)scrambling a word by using the function scramble(word)
+which generates a scrambled version of a given word, by randomly flipping two characters
+other than the first and last one.
+2)Then use a function that writes a program that reads a sentence/phrase and prints the scrambled words.
+**************************************************************************************************************
+"""
+# Get random module
+from random import randint
+
+
+def scramble(word):
+    """
+    ******************************************************************************************************************
+    Function: scramble(word)
+    Parameters:  word - to be scrambled
+    
+    Date: 01/30/2021
+    Modifications: 01/30/2021
+    Description:
+    This function is an alogrithm
+    1. Taking a string argument using input
+    2. splits the string into words
+    3. returns a scrambled version of each word which must be more than three letters
+    4. recursive calls of the function itself
+
+    **************************************************************************************************************
+    """
+
+    # setting the program to only scramble word with at least 4 letters
+    if len(word) < 4:
+        return word
+    # scrambling middle letters using randint from random module
+    char1 = randint(1, len(word)-2)
+    char2 = randint(1, len(word)-2)
+    while char1 == char2:
+        char2 = randint(1, len(word)-2)
+    scrambled = ""
+
+    for i in range(len(word)):
+        if i == char1:
+            scrambled = scrambled + word[char2]
+        elif i == char2:
+            scrambled = scrambled + word[char1]
+
+        else:
+
+            scrambled = scrambled + word[i]
+
+    return scrambled
+
+
+
+def sentence(word):
+    """
+    ******************************************************************************************************************
+    Function: sentence(word)
+    Parameters:  word - user entered sentence
+    Outputs: None
+    
+    Date: 01/30/2021
+    Modifications: 01/30/2021
+    Description:
+    This function is an algorithm
+        - to split the user's sentence into words
+            -then calls the scramble(word) to shuffle middle letters or each word
+        -appends the scrambled words in a list
+        -joins the scrambled words in a sentence
+
+    **************************************************************************************************************
+    """
+
+    # splitting the sentence into words or extract items from string
+    bits = word.split(" ")
+    # creating a list for the split words of the sentence
+    scrambled_sentence = []
+    for bit in bits:
+        if not bit:
+            continue
+        scrambled_sentence.append(scramble(bit))   # calling the scramble word function and appending the list
+    return " ".join(scrambled_sentence)   # creating one string of the words
+
+# Main function to control the flow of program
+
+
+def main():
+    """
+    ******************************************************************************************************************
+    Function: main()
+    Parameters:  Not defined
+    Outputs: Prints the sentence with scrambled worlds
+   
+    Date: 01/30/2021
+    Modifications: 01/30/2021
+    Description:
+    This function is an algorithm  to control the flow the program
+        - Title of Program
+        -Asks user to enter string to be scrambled
+        -Prints sentence with all words over 4 character scrambled.
+
+    **************************************************************************************************************
+    """
+    # Title & greeting
+    print("Word Scramble")
+    print("Welcome!")
+
+    # get sentence from user
+    word = input("Please enter a sentence: ")
+
+    print(sentence(word))
+
+
+if __name__ == "__main__":
+    main()  # starts the program
+
+
+
+"""
+The following is the record of program execution and outputs:
+
+Please enter a sentence: You can't have the cake and eat it too.
+You ca'nt hvae the ckae and eat it too.
+
+
+Please enter a sentence: A gentle answers turns away wrath, but a harsh word stirs up anger.
+A genlte anrwess tnrus aawy wraht, but a hrash wrod stris up agner.
+
+Please enter a sentence: The love of god does not find, but creates, that which is pleasing to it. 
+The love of man comes into being through that which is pleasing to it. (Martin Luther)
+The lvoe of god deos not fnid, but cseater, taht wihch is plesaing to it. 
+The lvoe of man cmoes itno bieng tgrouhh taht whcih is psealing to it. (Maritn Lutreh)
+
+"""
